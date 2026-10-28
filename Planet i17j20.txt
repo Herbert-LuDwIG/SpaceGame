@@ -1,0 +1,7 @@
+Name: Vornax
+Type: Ice giant
+Size: 141454 KM
+Rings: No rings
+Rotation: Fast rotation
+Moons: 0
+Weather: Storm, Extremely cold

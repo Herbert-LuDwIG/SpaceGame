@@ -198,10 +198,6 @@ public class SpaceMap {
 		    pAction();
 		}
 		
-		if(WorldMap[rX][rY] == planet) {
-			pAction();
-		}
-		
 		mapPrint(WorldMap);
 		
 		}while(wasd != 'x' && fuel > 0);
