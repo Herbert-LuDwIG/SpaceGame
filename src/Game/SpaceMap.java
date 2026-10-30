@@ -1,25 +1,34 @@
 package Game;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 import java.util.Scanner;
-import java.text.DecimalFormat;
+
 import javax.swing.JOptionPane;
 
 
 public class SpaceMap {
+	public static int iPlusj;
+	public static int AlterraRep, ECRep, MISRep;
 	public static char Rocket = '^';
 	public static int rX, rY, MapX = 15, MapY = 15;
 	public static char[][] WorldMap;
-	public static char planet = 'O', star = '.', Bstar = '*', Sattelite = '+';
+	public static char planet = 'O', star = '.', Bstar = '*', Station = '+';
 	public static double fuel = 1250;
 	public static int fCap = 1250;
 	public static int credits;
 	public static double version = 0.2;
 	public static int pDisc = 0;
 	public static int TileDist = 150000;
+	public static boolean hasEngine = false;
+	public static boolean hasHaul = false;
 	public static DecimalFormat df1 = new DecimalFormat( "#.##" );
+	public static Scanner scan = new Scanner(System.in);
+	
+	
 	public static void main(String[] args) {
 		Random rCredits = new Random();
 		credits = rCredits.nextInt(1000) + 500;
@@ -30,19 +39,18 @@ public class SpaceMap {
 			ShowInfo(fuel, fCap, credits, version);
 			fuel = rCTRL(fuel);
 			
-	}
-	
-	
+	}// main
 	
 	public static char[][] MapGenerating() {
 		int n = 0;
 		int fMapX = MapX;
 		
-		String[] size = {"Micro (" + fMapX + "x" + fMapX + ")", "Small (" + fMapX*2 + "x" + fMapX*2 + ")", "Medium (" + fMapX*3 + "x" + fMapX*3 + ")", "Big (" + fMapX*4 + "x" + fMapX*4 + ")", "Large (" + fMapX*6 + "x" + fMapX*6 + ")"};  
-	    String choice = (String) JOptionPane.showInputDialog(null, "","World Size",JOptionPane.QUESTION_MESSAGE,null, size, size[2]);
+		String[] size = {"Micro (" + fMapX + "x" + fMapX + ")", "Small (" + fMapX*2 + "x" + fMapX*2 + ")", "Medium (" + fMapX*3 + "x" + fMapX*3 + ")", "Big (" + fMapX*4 + "x" + fMapX*4 + ")", "Large (" + fMapX*7 + "x" + fMapX*7 + ")"};  
+	    String choice = (String) JOptionPane.showInputDialog(null, "Chose world's size","World Size",JOptionPane.QUESTION_MESSAGE,null, size, size[2]);
 	    
 	    if(choice == null) {
-	    	choice = size[2];
+	    	JOptionPane.showMessageDialog(null, "Bye!");
+            System.exit(0);
 	    }
  	
 	    switch(choice) {
@@ -50,7 +58,7 @@ public class SpaceMap {
 	       case "Small (30x30)":   n = 2; break;
 	       case "Medium (45x45)":  n = 3; break;
 	       case "Big (60x60)": 	   n = 4; break;
-	       case "Large (90x90)":   n = 6; break;
+	       case "Large (105x105)": n = 7; break;
 	     }
 	   
 	Random rand = new Random();
@@ -58,6 +66,7 @@ public class SpaceMap {
 	MapY *= n;
     WorldMap = new char[MapX][MapY];
   
+    iPlusj = MapX + MapY;
     rX = MapX/2;
     rY = MapY/2;
 	int planetNum = 0;
@@ -68,8 +77,6 @@ public class SpaceMap {
 	
 	for(int i = 0; i < MapX; i++) {
 		for(int j = 0; j < MapY; j++){
-			
-			
 			
 			if (i == rX && j == rY) {
 			    WorldMap[i][j] = ' ';
@@ -88,13 +95,13 @@ public class SpaceMap {
 
 			            if (obj == planet) {
 			                planetNum++;
-			            }
-			        }
-			    }
-			}
+			            }// if
+			        }// else
+			    }// else
+			}// else
 			   
 			    System.out.print(WorldMap[i][j] + " ");
-				}// j
+		  }// j
 			 	System.out.print("|\n");
 		}// i
 	
@@ -109,7 +116,7 @@ public class SpaceMap {
 		case 1: character = star; break;
 		case 2: character = Bstar; break;
 		case 3: character = planet; break;		
-		case 4: character = Sattelite; break;
+		case 4: character = Station; break;
 		}
 			
 		return character;
@@ -129,16 +136,15 @@ public class SpaceMap {
 	        }
 
 	        for (File file : files) {
-	            if (file.isFile() && file.getName().startsWith("Planet") && file.getName().endsWith(".txt")) {
+	            if (file.isFile() && file.getName().startsWith("Planet") && file.getName().endsWith(".txt") || file.getName().endsWith(" st.txt")) {
 	                file.delete();
 	            }
 	        }
 	}//fileDelete
 	
 	public static double rCTRL(double fuel) {
-		 
-		
 		char wasd;
+		
 		do {
 			System.out.print("WASD = movement\nx - stop/menu");
 		wasd = VirknesParbaude();
@@ -193,15 +199,19 @@ public class SpaceMap {
 
 		    default:
 		        System.out.println("Incorrect input");
-		}
+		}// switch
 
 		if (moved && WorldMap[rX][rY] == planet) {
 		    pAction();
-		}
+		}// if
+		
+		if (moved && WorldMap[rX][rY] == Station) {
+		    stAction();
+		}// if
 		
 		mapPrint(WorldMap);
 		
-		}while(wasd != 'x' && fuel > 0);
+		}while(wasd != 'x' && fuel > 0); // do{}while
 	
 		 
 		//ShowInfo(fuel, fCap, credits, version);
@@ -214,10 +224,10 @@ public static void ShowInfo(double fuel, int fCap,
 
     String[] methodList2 = {
         "W/A/S/D - Move",
-        "Fast travel",
+        "Fast travel to nearest planets",
         "Scanned planets",
-        "Inventory",
-        "Missions",
+        "Inventory (in development)",
+        "Missions (in development)",
         "Quit"
     };
 
@@ -228,9 +238,9 @@ public static void ShowInfo(double fuel, int fCap,
             "========================================\n"
             + "                       SPACE EXPLORER v" + version + "\n"
             + "========================================\n"
-            + "Fuel: " + df1.format(fuel) + "/" + fCap + "\n"
+            + "Fuel: " + df1.format(fuel) + "/" + fCap + "             Credits: " + credits +"\n"
             + "Planets discovered: " + pDisc + "\n"
-            + "----------------------------------------",
+            + "----------------------------------------------------------------------",
             "Space Explorer",
             JOptionPane.QUESTION_MESSAGE,
             null,
@@ -254,7 +264,7 @@ public static void ShowInfo(double fuel, int fCap,
                     PlanetGeneration.select(PlanetGeneration.pNum);
                 break;
 
-            case "Fast travel":
+            case "Fast travel to nearest planets":
                 fuel = FastTravel(WorldMap, rX, rY, fuel);
                 break;
 
@@ -271,7 +281,7 @@ public static void ShowInfo(double fuel, int fCap,
 // ShowInfo
 	
 	public static void mapPrint(char[][] arr) {
-		System.out.println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+		System.out.println("\n".repeat(WorldMap.length));
 		System.out.println("--".repeat(WorldMap.length));
 
 	    for (int i = 0; i < arr.length; i++) {
@@ -292,7 +302,7 @@ public static void ShowInfo(double fuel, int fCap,
 	}//mapPrint
 	
 	public static char VirknesParbaude() {
-		 Scanner scan = new Scanner(System.in);
+		
 		 char dati = scan.next().charAt(0);
 
 			    if (Character.toString(dati).matches("^[a-zA-Z0-9]*$")) {
@@ -327,23 +337,54 @@ public static void ShowInfo(double fuel, int fCap,
 	    }
 	}//pAction
 
+	public static void stAction() {
+	    Object[] options = {"Visit station", "Continue exploration"};
+
+	    int selectedStation = JOptionPane.showOptionDialog(
+	        null,
+	        "What would you like to do?",
+	        "You've arrived to the station!",
+	        JOptionPane.DEFAULT_OPTION,
+	        JOptionPane.QUESTION_MESSAGE,
+	        null,
+	        options,
+	        options[0]
+	    );
+
+	    if (selectedStation == 0) {
+	        JOptionPane.showMessageDialog(null, "Welcome, Captain!");
+	        StationClass.sg(WorldMap, rX, rY);
+	    } else if (selectedStation == 1) {
+	        JOptionPane.showMessageDialog(null, "Continuing exploration...");
+	    }
+	}//stAction
+	
 	
 	public static double FastTravel(char[][] arr, int pI, int pJ, double fuel2) {
 		double distance = 0;
+		
 		ArrayList<String> SMTH = new ArrayList<>();
 		ArrayList<Integer> X = new ArrayList<>();
 		ArrayList<Integer> Y = new ArrayList<>();
+		ArrayList<Double> Dist = new ArrayList<>();
 		
 		for(int i = 0; i < arr.length; i++) {
 			for(int j = 0; j < arr[i].length; j++) {
 				if(arr[i][j] == planet) {
 					distance = Math.sqrt(Math.pow(i - pI, 2) + Math.pow(j - pJ, 2));
-					 SMTH.add("~ " + df1.format(distance) + " tiles (" + df1.format(distance * TileDist) + " km)");
+					Dist.add(distance);
 					 X.add(i);
 					 Y.add(j);
-				}
+				}// if
 			}// j
 		}// i
+		
+		Collections.sort(Dist);
+		for(int i = 0; i < 3; i++) {
+				SMTH.add("~ " + df1.format(Dist.get(i)) + " tiles (" + df1.format(Dist.get(i) * TileDist) + " km)");
+			}// for
+			
+		Collections.sort(Dist);
 		
 		String selected = (String) JOptionPane.showInputDialog(
 	            null,
@@ -355,9 +396,9 @@ public static void ShowInfo(double fuel, int fCap,
 	            SMTH.get(0)
 	    );
 		
-		if(selected == null) {
+		if(selected == null) 
 			return fuel2;
-		}
+		
 		
 		 int index = SMTH.indexOf(selected);
 		 

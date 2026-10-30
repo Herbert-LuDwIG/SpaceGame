@@ -41,7 +41,7 @@ public class PlanetGeneration {
         } catch (IOException e) {
             System.out.println("Error reading file.");
         }
-    }
+    }// loadPlanets
 
     public static void pg(char[][] arr, int i, int j) {
     	
@@ -73,7 +73,7 @@ public class PlanetGeneration {
 						  bw.newLine(); 
 						  
 						//planet type  
-						  int r1 = rand.nextInt(pType2.length-1);
+						  int r1 = rand.nextInt(pType2.length);
 						  pType.add(pType2[r1]);
 					      bw.write("Type: " + pType.get(pNum));
 					      bw.newLine();
@@ -99,13 +99,13 @@ public class PlanetGeneration {
 					      bw.newLine(); 
 					      
 					    //planet rings  
-					      int r3 = rand.nextInt(pRings2.length-1);
+					      int r3 = rand.nextInt(pRings2.length);
 					      pRings.add(pRings2[r3]);
 					      bw.write("Rings: " + pRings.get(pNum));
 					      bw.newLine(); 
 					      
 					    //planet rotation  
-					      int r4 = rand.nextInt(pRotation2.length-1);
+					      int r4 = rand.nextInt(pRotation2.length);
 					      pRotation.add(pRotation2[r4]);
 					      bw.write("Rotation: " + pRotation.get(pNum));
 					      bw.newLine();  
@@ -135,7 +135,8 @@ public class PlanetGeneration {
 					      System.out.println("Error writing file.");
 					    }
 				
-				}} else {
+				  }
+				} else {
 			         JOptionPane.showMessageDialog(null, "The planet have been already scanned!");
 		        }
 		
