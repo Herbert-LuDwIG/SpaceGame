@@ -1,0 +1,7 @@
+Name: Noctarium
+Type: Gas dwarf
+Size: 11612 KM
+Rings: No rings
+Rotation: Moderate rotation
+Moons: 1
+Weather: Temperate temperature

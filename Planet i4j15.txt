@@ -1,0 +1,7 @@
+Name: Vellaris
+Type: Terrestrial planet
+Size: 5441 KM
+Rings: No rings
+Rotation: Moderate rotation
+Moons: 2
+Weather: Strong winds

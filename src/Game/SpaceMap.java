@@ -137,9 +137,10 @@ public class SpaceMap {
 	
 	public static double rCTRL(double fuel) {
 		 
-		System.out.print("WASD = movement\nx - stop/menu");
+		
 		char wasd;
 		do {
+			System.out.print("WASD = movement\nx - stop/menu");
 		wasd = VirknesParbaude();
 		
 		if(fuel <= 0) {
@@ -254,7 +255,7 @@ public static void ShowInfo(double fuel, int fCap,
                 break;
 
             case "Fast travel":
-                fuel = FastTravel(WorldMap, rX, rY);
+                fuel = FastTravel(WorldMap, rX, rY, fuel);
                 break;
 
             case "Inventory (in development)":
@@ -327,7 +328,7 @@ public static void ShowInfo(double fuel, int fCap,
 	}//pAction
 
 	
-	public static double FastTravel(char[][] arr, int pI, int pJ) {
+	public static double FastTravel(char[][] arr, int pI, int pJ, double fuel2) {
 		double distance = 0;
 		ArrayList<String> SMTH = new ArrayList<>();
 		ArrayList<Integer> X = new ArrayList<>();
@@ -354,7 +355,9 @@ public static void ShowInfo(double fuel, int fCap,
 	            SMTH.get(0)
 	    );
 		
-		
+		if(selected == null) {
+			return fuel2;
+		}
 		
 		 int index = SMTH.indexOf(selected);
 		 
@@ -362,11 +365,11 @@ public static void ShowInfo(double fuel, int fCap,
 		 rY = Y.get(index);
 		 //WorldMap[X.get(index)][Y.get(index)] = Rocket;
 		 mapPrint(WorldMap);
+		 df1.format(fuel2 -= distance * 2.5);
+		 ShowInfo(fuel2, fCap, credits, version);
 		 
-		 ShowInfo(fuel, fCap, credits, version);
-		 
-		df1.format(fuel -= distance * 2.5);
-		return fuel;
+		
+		return fuel2;
 	}// FastTravel
 	
 	
