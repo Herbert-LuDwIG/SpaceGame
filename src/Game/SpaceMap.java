@@ -20,7 +20,7 @@ public class SpaceMap {
 	public static double fuel = 1250;
 	public static int fCap = 1250;
 	public static int credits;
-	public static double version = 0.2;
+	public static double version = 0.3;
 	public static int pDisc = 0;
 	public static int TileDist = 150000;
 	public static boolean hasEngine = false;

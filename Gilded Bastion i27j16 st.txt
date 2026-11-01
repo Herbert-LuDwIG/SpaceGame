@@ -1,3 +1,0 @@
-Name: Gilded Bastion
-Fraction: DeepRockGalactic
-Type: Scientific outpost

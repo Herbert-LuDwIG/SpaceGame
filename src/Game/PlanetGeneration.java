@@ -122,7 +122,7 @@ public class PlanetGeneration {
 					      pWeather.add(pWeather2[r6] + ", " + pWeather2[0]);
 					      bw.write("Weather: " + pWeather.get(pNum)); 
 					      } else {	
-					      int r6 = rand.nextInt(pWeather2.length-1);
+					      int r6 = rand.nextInt(pWeather2.length);
 					      pWeather.add(pWeather2[r6]);
 						  bw.write("Weather: " + pWeather.get(pNum)); 
 					      }

@@ -40,9 +40,7 @@ public class StationClass {
 			 fraction.add(null);
 			 type.add(null);
 		 }
-		 
-		 
-		 
+		
 		 	String[] fraction2 = {"Alterra Corp.", "European Coalition", "Mongolian Independent States", "DeepRockGalactic"};
 		 	String[] type2 = {"Civil outpost", "Military outpost", "Scientific outpost", "Mining outpost", "Shipyard", "Capital"};
 		 
@@ -100,10 +98,11 @@ public class StationClass {
 	 			    "Missions",
 	 			    "Leave"
 	 			};
-	 		int result = JOptionPane.showOptionDialog(null, "========================================\n"
+	 		int result = JOptionPane.showOptionDialog(null,
+	 									   "========================================\n"
 	   									 + "                      Welcome to " +  stName.get(num) + "!\n"
 	   									 + "========================================",
-	   									 fraction.get(num) + "'s " + type.get(num),
+	   									fraction.get(num) + "'s " + type.get(num),
 	   									 JOptionPane.YES_NO_CANCEL_OPTION,
 	   									 JOptionPane.PLAIN_MESSAGE, 
 	   									 null,
@@ -111,8 +110,8 @@ public class StationClass {
 	   									 options[0]);
 
 	 		switch(result) {
-	 		case 0:
-	 		case 1:
+	 		case 0: break;
+	 		case 1: break;
 	 		case 2: return SpaceMap.fuel;
 	 		}
 			return SpaceMap.fuel;
