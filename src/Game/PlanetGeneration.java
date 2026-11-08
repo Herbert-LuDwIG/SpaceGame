@@ -29,6 +29,11 @@ public class PlanetGeneration {
 	static ArrayList<Integer> pCy = new ArrayList<>();
 	public static int pNum = -1;
 	
+	
+	
+	
+	
+	
     private static void loadPlanets() {
         try (BufferedReader br = new BufferedReader(new FileReader("pName.txt"))) {
 
@@ -43,6 +48,12 @@ public class PlanetGeneration {
         }
     }// loadPlanets
 
+    
+    
+    
+    
+    
+    
     public static void pg(char[][] arr, int i, int j) {
     	
     	File f = new File("Planet i" + i + "j" + j + ".txt");
@@ -79,15 +90,15 @@ public class PlanetGeneration {
 					      bw.newLine();
 					      
 					    //planet size  
-					      if(pType2[r1] == "Terrestrial planet") {
+					      if(pType2[r1].equals("Terrestrial planet")) {
 					    	  int r2 = rand.nextInt(8500)+4500;
 					    	  pSize.add(r2);
 					    	  bw.write("Size: " + pSize.get(pNum) + " KM");
-					      } else if(pType2[r1] == "Gas dwarf") {
+					      } else if(pType2[r1].equals("Gas dwarf")) {
 					    	  int r2 = rand.nextInt(14000)+10800;
 					    	  pSize.add(r2);
 					    	  bw.write("Size: " + pSize.get(pNum) + " KM");
-					      } else if(pType2[r1] == "Dwarf planet"){
+					      } else if(pType2[r1].equals("Dwarf planet")){
 					    	  int r2 = rand.nextInt(1450)+950;
 					    	  pSize.add(r2);
 					    	  bw.write("Size: " + pSize.get(pNum) + " KM"); 
@@ -117,8 +128,8 @@ public class PlanetGeneration {
 					      bw.newLine(); 
 					      
 					    //planet weather
-					      if(pType2[r1] == "Ice giant") {
-					      int r6 = rand.nextInt(pWeather2.length-2)+1;
+					      if(pType2[r1].equals("Ice giant")) {
+					      int r6 = rand.nextInt(pWeather2.length-3)+1;
 					      pWeather.add(pWeather2[r6] + ", " + pWeather2[0]);
 					      bw.write("Weather: " + pWeather.get(pNum)); 
 					      } else {	
@@ -146,6 +157,14 @@ public class PlanetGeneration {
     }//pg
   //------------------------------------------------------------------------------
     
+    
+    
+    
+    
+    
+    
+    
+    
     public static void showInfo(int i, int j) {
     	try (BufferedReader br = new BufferedReader(new FileReader("Planet i" + i + "j" + j + ".txt"))) {
     		  StringBuilder text = new StringBuilder();
@@ -162,6 +181,14 @@ public class PlanetGeneration {
         }
     
     }// showInfo
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     public static int select(int pnum) {
@@ -198,8 +225,6 @@ public class PlanetGeneration {
         if (pnum >= 0 && pnum < pCx.size() && pnum < pCy.size()) {
             showInfo(pCx.get(pnum), pCy.get(pnum));
         }
-
-        
         
         return pnum;
     }// select
