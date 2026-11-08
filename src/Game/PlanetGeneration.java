@@ -17,24 +17,40 @@ public class PlanetGeneration {
 
 	//------------------------------------------------------------------------------
 	static ArrayList<String>  planets = new ArrayList<>();
-	static ArrayList<String>  pName = new ArrayList<>();
-	static ArrayList<String>  pType = new ArrayList<>();
-	static ArrayList<Integer> pSize = new ArrayList<>();
-	static ArrayList<String>  pRings = new ArrayList<>();
-	static ArrayList<String>  pRotation = new ArrayList<>();
-	static ArrayList<Integer> pMoons = new ArrayList<>();
-	static ArrayList<String>  pWeather = new ArrayList<>();
-	static ArrayList<String>  pCoordinates = new ArrayList<>();
-	static ArrayList<Integer> pCx = new ArrayList<>();
-	static ArrayList<Integer> pCy = new ArrayList<>();
+	static ArrayList<PlanetGeneration>  planetObj = new ArrayList<>();
 	public static int pNum = -1;
+	private String pNameObj, pTypeObj, pRotObj, pWeatherObj;
+	private int pSizeObj, pMoonObj, ID, pX, pY;
+	private String pRingObj;
+	
+	//================= PlanetGeneration constructor =================
+	PlanetGeneration(String name, String type, int size, String rings, String rotation, int moons, String weather, int ajdi, int x, int y){
+		pNameObj = name;
+		pTypeObj = type;
+		pSizeObj = size;
+		pRingObj = rings;
+		pRotObj = rotation;
+		pMoonObj = moons;
+		pWeatherObj = weather;
+		ID = ajdi;
+		pX = x;
+		pY = y;
+	}// PlanetGeneration constructor
+	
+	
+	//================= init =================
+	static void init() {
+	    if (planetObj.isEmpty()) {
+	        for (int i = 0; i < SpaceMap.maximum; i++) {
+	            planetObj.add(null);
+	        }
+	    }
+	}// init
 	
 	
 	
-	
-	
-	
-    private static void loadPlanets() {
+	//================= loadPlanets =================
+    public static void loadPlanets() {
         try (BufferedReader br = new BufferedReader(new FileReader("pName.txt"))) {
 
             String line;
@@ -53,105 +69,95 @@ public class PlanetGeneration {
     
     
     
-    
+  //================= pg =================
     public static void pg(char[][] arr, int i, int j) {
     	
-    	File f = new File("Planet i" + i + "j" + j + ".txt");
-
-        if (!f.exists()) {
-        	loadPlanets();
+    	int pID = (i*100)+j, sizePlanet, moonsP;
+    	String weatherP;
+		 
+    	if (planetObj.isEmpty()) {
+	        for (int i2 = 0; i2 < SpaceMap.maximum; i2++) {
+	            planetObj.add(null);
+	        }
+	    }
+    	
+    	
+	        if (planetObj.get(pID) == null) {
+        	
     	
         Random rand = new Random();
         
         int r = rand.nextInt(planets.size());
-        //pName.add(planets.get(r));
+        
+        //JOptionPane.showMessageDialog(null, planets.get(r));
         
         String[] pType2 = {"Terrestrial planet", "Gas giant", "Ice giant", "Gas dwarf", "Dwarf planet"};
-		//String[] pSize2 = {"Small", "Medium", "Large", "Giant"};
 		String[] pRings2 = {"No rings", "Has rings"};
 		String[] pRotation2 = {"Fast rotation", "Moderate rotation", "Slow rotation"};
-		//String[] pMoons = {"0", "1", "2", "3"};
 		String[] pWeather2 = {"Extremely cold", "Strong winds", "Storm", "Winds", "No winds and storm", "No storm", "Temperate temperature", "Extremely hot"};
 		  
 	
 		if(arr[i][j] == SpaceMap.planet) {
-					try (BufferedWriter bw = new BufferedWriter(new FileWriter("Planet i" + i + "j" + j + ".txt"))) {
-						pNum++;
-						
-						//planet name
-						  pName.add(planets.get(r));
-						  bw.write("Name: " + pName.get(pNum));
-						  bw.newLine(); 
-						  
-						//planet type  
+					
+					 
 						  int r1 = rand.nextInt(pType2.length);
-						  pType.add(pType2[r1]);
-					      bw.write("Type: " + pType.get(pNum));
-					      bw.newLine();
-					      
-					    //planet size  
+						 
 					      if(pType2[r1].equals("Terrestrial planet")) {
 					    	  int r2 = rand.nextInt(8500)+4500;
-					    	  pSize.add(r2);
-					    	  bw.write("Size: " + pSize.get(pNum) + " KM");
+					    	  sizePlanet = r2;
+					    	  
 					      } else if(pType2[r1].equals("Gas dwarf")) {
 					    	  int r2 = rand.nextInt(14000)+10800;
-					    	  pSize.add(r2);
-					    	  bw.write("Size: " + pSize.get(pNum) + " KM");
+					    	  sizePlanet = r2;
+					    	 
 					      } else if(pType2[r1].equals("Dwarf planet")){
 					    	  int r2 = rand.nextInt(1450)+950;
-					    	  pSize.add(r2);
-					    	  bw.write("Size: " + pSize.get(pNum) + " KM"); 
+					    	  sizePlanet = r2;
+					    	 
 					      }	else {
 					    	  int r2 = rand.nextInt(93500)+49500;
-					    	  pSize.add(r2);
-					    	  bw.write("Size: " + pSize.get(pNum) + " KM"); 
+					    	  sizePlanet = r2;
+					    	  
 					      }
-					      bw.newLine(); 
-					      
+					    
 					    //planet rings  
 					      int r3 = rand.nextInt(pRings2.length);
-					      pRings.add(pRings2[r3]);
-					      bw.write("Rings: " + pRings.get(pNum));
-					      bw.newLine(); 
+					     // pRings.add(pRings2[r3]);
+					     
 					      
 					    //planet rotation  
 					      int r4 = rand.nextInt(pRotation2.length);
-					      pRotation.add(pRotation2[r4]);
-					      bw.write("Rotation: " + pRotation.get(pNum));
-					      bw.newLine();  
+					     // pRotation.add(pRotation2[r4]);
+					        
 					      
 					    //planet moons  
 					      int r5 = rand.nextInt(4);
-					      pMoons.add(r5);
-					      bw.write("Moons: " + pMoons.get(pNum));
-					      bw.newLine(); 
+					      moonsP = r5;
+					      
 					      
 					    //planet weather
 					      if(pType2[r1].equals("Ice giant")) {
 					      int r6 = rand.nextInt(pWeather2.length-3)+1;
-					      pWeather.add(pWeather2[r6] + ", " + pWeather2[0]);
-					      bw.write("Weather: " + pWeather.get(pNum)); 
+					      weatherP = pWeather2[r6] + ", " + pWeather2[0];
+					      
 					      } else {	
 					      int r6 = rand.nextInt(pWeather2.length);
-					      pWeather.add(pWeather2[r6]);
-						  bw.write("Weather: " + pWeather.get(pNum)); 
+					      weatherP = pWeather2[r6];
+						  
 					      }
+					   
+					      SpaceMap.pDisc++; 
 					      
-					      pCx.add(i);
-						  pCy.add(j);
-					      SpaceMap.pDisc++; // Increases quanity of discovered planets
-					      
-					    } catch (IOException e) {
-					      System.out.println("Error writing file.");
-					    }
-				
-				  }
+					      PlanetGeneration planet = new PlanetGeneration(planets.get(r), pType2[r1], sizePlanet, pRings2[r3], pRotation2[r4], moonsP, weatherP, pID, i, j);
+					      planetObj.set(pID, planet);
+					      showInfo(pID);
+				  } else if (arr[i][j] != SpaceMap.planet) {
+					    return;
+				  }// if
 				} else {
 			         JOptionPane.showMessageDialog(null, "The planet have been already scanned!");
-		        }
-		
-				showInfo(i, j);
+		        }// else
+				
 
    
     }//pg
@@ -164,21 +170,15 @@ public class PlanetGeneration {
     
     
     
-    
-    public static void showInfo(int i, int j) {
-    	try (BufferedReader br = new BufferedReader(new FileReader("Planet i" + i + "j" + j + ".txt"))) {
-    		  StringBuilder text = new StringBuilder();
-    	        String line;
-
-    	        while ((line = br.readLine()) != null) {
-    	            text.append(line).append("\n");
-    	        }
-
-    	        JOptionPane.showMessageDialog(null, text.toString());
-
-        } catch (IOException e) {
-            
-        }
+  //================= showInfo =================
+    public static void showInfo(int num) {
+    	JOptionPane.showMessageDialog(null, "Name: " + planetObj.get(num).pNameObj + 
+    										"\nType: " + planetObj.get(num).pTypeObj +
+    										"\nSize: " + planetObj.get(num).pSizeObj + 
+    										"\nRings: " + planetObj.get(num).pRingObj +
+    										"\nRotation: " + planetObj.get(num).pRotObj + 
+    										"\nMoons: " + planetObj.get(num).pMoonObj + 
+    										"\nWeather: " + planetObj.get(num).pWeatherObj, "Planet scan", JOptionPane.PLAIN_MESSAGE);
     
     }// showInfo
     
@@ -189,20 +189,27 @@ public class PlanetGeneration {
     
     
     
-    
-    
-    public static int select(int pnum) {
+  //================= select =================
+    public static void select(int pnum) {
 
         ArrayList<String> SMTH = new ArrayList<>();
+        ArrayList<Integer> IDs = new ArrayList<>();
 
-        for (int i = 0; i < pName.size(); i++) {
-            SMTH.add(pName.get(i) + " i" + pCx.get(i) + "j" + pCy.get(i));
+        for (int i = 0; i < planetObj.size(); i++) {
+
+            if (planetObj.get(i) != null) {
+
+                SMTH.add(planetObj.get(i).pNameObj
+                    + " i" + planetObj.get(i).pX
+                    + " j" + planetObj.get(i).pY);
+
+                IDs.add(i);
+            }
         }
 
-        
         if (SMTH.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No scanned planets!");
-            return -1;
+            return;
         }
 
         String selected = (String) JOptionPane.showInputDialog(
@@ -215,18 +222,16 @@ public class PlanetGeneration {
             SMTH.get(0)
         );
 
-       
         if (selected == null) {
-            return pnum;
+            return;
         }
 
-        pnum = SMTH.indexOf(selected);
+        int pnum2 = SMTH.indexOf(selected);
 
-        if (pnum >= 0 && pnum < pCx.size() && pnum < pCy.size()) {
-            showInfo(pCx.get(pnum), pCy.get(pnum));
+        if (pnum2 >= 0) {
+            pnum2 = IDs.get(pnum2);
+            showInfo(pnum2);
         }
-        
-        return pnum;
     }// select
     
     

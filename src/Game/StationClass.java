@@ -12,38 +12,31 @@ import java.util.Random;
 import javax.swing.JOptionPane;
 
 public class StationClass {
-	//static int stNum;
 	static boolean isCapital = false;
-	static ArrayList<String> stations = new ArrayList<>();
-	static ArrayList<String> stNameArr = new ArrayList<>();
-	static ArrayList<String> fractionArr = new ArrayList<>();
-	static ArrayList<String> typeArr = new ArrayList<>();
+	static ArrayList<String> stationsName = new ArrayList<>();
 	static ArrayList<StationClass> StationObj = new ArrayList<>();
 	private String stNameObj, stFracObj, stTypeObj;
 	private int ID;
 	
 	
 	
-	
+	//================= loadStations =================
 	 private static void loadStations() {
 	        try (BufferedReader br = new BufferedReader(new FileReader("Stations.txt"))) {
 
 	            String line;
 
 	            while ((line = br.readLine()) != null) {
-	                stations.add(line);
+	                stationsName.add(line);
 	            }
 
 	        } catch (IOException e) {
 	            System.out.println("Error reading file.");
 	        }
-	        
-	        
-	        
-	        
-	    }// loadStations
+	      }// loadStations
 	
 	 
+	//================= StationClass constructor =================
 	 StationClass(String name, String fraction, String type, int ajdi){
 		 stNameObj = name; 
 		 stFracObj = fraction;
@@ -51,83 +44,58 @@ public class StationClass {
 		 ID = ajdi;
 	 }// StationClass constructor
 	 
+	
 	 
-	 
-	 
-	 
-	 
-	 
+	//================= sg =================
 	 public static void sg(char[][] arr, int i, int j) {
 		 int stID = (i*100)+j;
-		// File f = new File("Station i" + i + "j" + j + " st.txt");
+		 String name;
+		
 		 for(int i2 = 0; i2 < SpaceMap.maximum; i2++) {
-			 stNameArr.add(null);
-			 fractionArr.add(null);
-			 typeArr.add(null);
 			 StationObj.add(null);
 		 }
-	        if (StationObj.get(stID) == null) {
-	      
-		 //int x = (SpaceMap.iPlusj % 100) + SpaceMap.iPlusj / 100;
-		 //JOptionPane.showMessageDialog(null, "iPlusj = " + SpaceMap.iPlusj + "\nx = " + x);
 		 
-		
-		
+	        if (StationObj.get(stID) == null) {
+	        	
 		 	String[] fraction2 = {"Alterra Corp.", "European Coalition", "Mongolian Independent States", "DeepRockGalactic"};
 		 	String[] type2 = {"Civil outpost", "Military outpost", "Scientific outpost", "Mining outpost", "Shipyard", "Capital"};
 		 
 		 	loadStations();
 	    	Random rand = new Random();
-	    	int r = rand.nextInt(stations.size());
+	    	int r = rand.nextInt(stationsName.size());
 	    	int r2 = rand.nextInt(10)+1;
+	    	int r1 = rand.nextInt(fraction2.length), r21 = rand.nextInt(type2.length);
 	        if(r2 >= 4) {
-	        	 stNameArr.set(stID, stations.get(r));
+	        	 name =  stationsName.get(r);
 	        } else {
 	        	int r3 = rand.nextInt(10)+1;
-	        	 stNameArr.set(stID, stations.get(r) + "-" + r3);
+	        	 name = stationsName.get(r) + "-" + r3;
 	        }
 	        
-	       
-	        //JOptionPane.showMessageDialog(null, stName.get(stNum));
 		 if(arr[i][j] == SpaceMap.Station) {
-				
+			  
+			 r1 = rand.nextInt(fraction2.length);
 					
-					//station name
-					 
-					  
-					//station fraction   
-					  int r1 = rand.nextInt(fraction2.length);
-					  fractionArr.set(stID, fraction2[r1]);
-				     
-				      
-				    //station fraction 
-				      if(!isCapital) {
-				      int r21 = rand.nextInt(type2.length);
-					  typeArr.set(stID, type2[r21]);  
+				     if(!isCapital) {
 					  isCapital = true;
 				      } else {
-				    	  int r21 = rand.nextInt(type2.length-1);
-				    	  typeArr.set(stID, type2[r21]);  
-				      }
-				     
-				      
-				   
-			
+				    	   r21 = rand.nextInt(type2.length-1);  
+				      }// if
 			  }// if
 		 
-		 StationClass stationObj = new StationClass(stNameArr.get(stID), fractionArr.get(stID), typeArr.get(stID), stID);
+		 StationClass stationObj = new StationClass(name, fraction2[r1], type2[r21], stID);
 		 StationObj.set(stID,stationObj);
-		 stActivity(i, j, stID);
+		 stActivity(stID);
 	        } else {
-	        stActivity(i, j, stID); 	
+	        stActivity(stID); 	
 	        }
 		 
 	 }// sg
 	 
 
 	 
-	 
-	 	private static double stActivity(int i, int j, int num) {
+	//================= stActivity =================
+	 	private static double stActivity(int num) {
 	 		
 	 		Object[] options = {
 	 			    "Trade",
@@ -158,19 +126,5 @@ public class StationClass {
 	    }// stActivity
 	 
 	 	
-	 	
-	 	
-	 
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 	
-	 
+	
 }// class

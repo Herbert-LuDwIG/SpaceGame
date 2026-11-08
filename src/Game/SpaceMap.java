@@ -31,10 +31,14 @@ public class SpaceMap {
 	
 	public static void main(String[] args) {
 		Random rCredits = new Random();
+		
 		credits = rCredits.nextInt(1000) + 500;
 		fileDelete(".");
 			WorldMap = MapGenerating();	
+			//PlanetGeneration.init();
+			PlanetGeneration.loadPlanets();
 			PlanetGeneration.pg(WorldMap, rX, rY);
+			
 			ShowInfo(fuel, fCap, credits);
 			fuel = rCTRL(fuel);
 			
@@ -327,7 +331,6 @@ public static void ShowInfo(double fuel, int fCap,
                 break;
 
             case "Scanned planets":
-                PlanetGeneration.pNum =
                     PlanetGeneration.select(PlanetGeneration.pNum);
                 break;
 
