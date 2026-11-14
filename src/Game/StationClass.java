@@ -99,7 +99,9 @@ public class StationClass {
 	 			    "Spaceship",
 	 			    "Leave"
 	 			};
-	 		int result = JOptionPane.showOptionDialog(null,
+	 		int result;
+	 		do {
+	 		 result = JOptionPane.showOptionDialog(null,
 	 									   "===============================================================\n"
 	   									 + "                            				Welcome to " +  StationObj.get(num).stNameObj + "!\n"
 	   									 + "===============================================================",
@@ -114,8 +116,10 @@ public class StationClass {
 	 		case 0: refuel(); break;
 	 		case 1: trade(StationObj.get(num).stFracObj, StationObj.get(num).stTypeObj); break;
 	 		case 2: break;
+	 		case 3: break;
+	 		case 4: break;
 	 		}// switch "result" 			
-	    
+	 	  }while(result != 4);
 	    }// stActivity
 	 
 	 	
@@ -198,7 +202,7 @@ public class StationClass {
 	 		int r1 = rand.nextInt(10);
 	 		int r2 = rand.nextInt(10);
 	 		int r3 = rand.nextInt(10);
-	 		JOptionPane.showMessageDialog(null, "==================================\n"
+	 		JOptionPane.showInputDialog(null, "==================================\n"
 					   +"||  	             				 STATION MARKET                       ||\n"
 					   +"==================================\n"
 					   +"||  		 " +  name.toUpperCase() + "        ||\n"
@@ -219,7 +223,7 @@ public class StationClass {
 	 		int r1 = rand.nextInt(10);
 	 		int r2 = rand.nextInt(10);
 	 		int r3 = rand.nextInt(10);
-	 		JOptionPane.showMessageDialog(null, "==================================\n"
+	 		JOptionPane.showInputDialog(null, "==================================\n"
 					   +"||  	             				 STATION MARKET                       ||\n"
 					   +"==================================\n"
 					   +"||  		 " +  name.toUpperCase() + "        ||\n"
@@ -240,7 +244,7 @@ public class StationClass {
 	 		int r1 = rand.nextInt(10);
 	 		int r2 = rand.nextInt(10);
 	 		int r3 = rand.nextInt(10);
-	 		JOptionPane.showMessageDialog(null, "==================================\n"
+	 		JOptionPane.showInputDialog(null, "==================================\n"
 					   +"||  	             				 STATION MARKET                       ||\n"
 					   +"==================================\n"
 					   +"||  		 " +  name.toUpperCase() + "        ||\n"
@@ -261,7 +265,7 @@ public class StationClass {
 	 		int r1 = rand.nextInt(10);
 	 		int r2 = rand.nextInt(10);
 	 		int r3 = rand.nextInt(10);
-	 		JOptionPane.showMessageDialog(null, "==================================\n"
+	 		JOptionPane.showInputDialog(null, "==================================\n"
 					   +"||  	             				 STATION MARKET                       ||\n"
 					   +"==================================\n"
 					   +"||  		 " +  name.toUpperCase() + "        ||\n"
@@ -282,7 +286,7 @@ public class StationClass {
 	 		int r1 = rand.nextInt(10);
 	 		int r2 = rand.nextInt(10);
 	 		int r3 = rand.nextInt(10);
-	 		JOptionPane.showMessageDialog(null, "==================================\n"
+	 		JOptionPane.showInputDialog(null, "==================================\n"
 					   +"||  	             				 STATION MARKET                       ||\n"
 					   +"==================================\n"
 					   +"||  		 " +  name.toUpperCase() + "        ||\n"

@@ -277,7 +277,7 @@ public class SpaceMap {
         switch (method2) {
 
             case "W/A/S/D - Move":
-                fuel = rCTRL();
+                rCTRL();
                 break;
 
             case "Scanned planets":
