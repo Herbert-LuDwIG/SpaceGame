@@ -1,10 +1,7 @@
 package Game;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,16 +12,15 @@ import javax.swing.JOptionPane;
 
 public class PlanetGeneration {
 
-	//------------------------------------------------------------------------------
+	//================= Attributes =================
 	static ArrayList<String>  planets = new ArrayList<>();
 	static ArrayList<PlanetGeneration>  planetObj = new ArrayList<>();
-	public static int pNum = -1;
 	private String pNameObj, pTypeObj, pRotObj, pWeatherObj;
-	private int pSizeObj, pMoonObj, ID, pX, pY;
-	private String pRingObj;
+	private int  pMoonObj, pX, pY;
+	private String pRingObj, pSizeObj;
 	
-	//================= PlanetGeneration constructor =================
-	PlanetGeneration(String name, String type, int size, String rings, String rotation, int moons, String weather, int ajdi, int x, int y){
+	//================= PlanetGeneration constructor =================// Make a new planet
+	PlanetGeneration(String name, String type, String size, String rings, String rotation, int moons, String weather, int ajdi, int x, int y){
 		pNameObj = name;
 		pTypeObj = type;
 		pSizeObj = size;
@@ -32,13 +28,12 @@ public class PlanetGeneration {
 		pRotObj = rotation;
 		pMoonObj = moons;
 		pWeatherObj = weather;
-		ID = ajdi;
 		pX = x;
 		pY = y;
 	}// PlanetGeneration constructor
 	
-	
-	//================= init =================
+	/*
+	//================= init =================// 
 	static void init() {
 	    if (planetObj.isEmpty()) {
 	        for (int i = 0; i < SpaceMap.maximum; i++) {
@@ -46,7 +41,7 @@ public class PlanetGeneration {
 	        }
 	    }
 	}// init
-	
+	*/
 	
 	
 	//================= loadPlanets =================
@@ -66,23 +61,24 @@ public class PlanetGeneration {
 
     
     
+    //========== emptyAnArray ==========// Make an array to fill it with planets later
+    public static void emptyAnArray() {
+    	if (planetObj.isEmpty()) {
+	        for (int i2 = 0; i2 < SpaceMap.maximum; i2++) {
+	            planetObj.add(null);
+	        }
+	    }// if
+    }
     
     
     
   //================= pg =================
     public static void pg(char[][] arr, int i, int j) {
     	
-    	int pID = (i*100)+j, sizePlanet, moonsP;
-    	String weatherP;
-		 
-    	if (planetObj.isEmpty()) {
-	        for (int i2 = 0; i2 < SpaceMap.maximum; i2++) {
-	            planetObj.add(null);
-	        }
-	    }
+    	int pID = (i*100)+j, moonsP;
+    	String weatherP, sizePlanet;    	
     	
-    	
-	        if (planetObj.get(pID) == null) {
+	    if (planetObj.get(pID) == null) {
         	
     	
         Random rand = new Random();
@@ -101,22 +97,22 @@ public class PlanetGeneration {
 					
 					 
 						  int r1 = rand.nextInt(pType2.length);
-						 
+						  int r2;
 					      if(pType2[r1].equals("Terrestrial planet")) {
-					    	  int r2 = rand.nextInt(8500)+4500;
-					    	  sizePlanet = r2;
+					    	   r2 = rand.nextInt(8500)+4500;
+					    	  sizePlanet = r2 + " km";
 					    	  
 					      } else if(pType2[r1].equals("Gas dwarf")) {
-					    	  int r2 = rand.nextInt(14000)+10800;
-					    	  sizePlanet = r2;
+					    	   r2 = rand.nextInt(14000)+10800;
+					    	  sizePlanet = r2 + " km";
 					    	 
 					      } else if(pType2[r1].equals("Dwarf planet")){
-					    	  int r2 = rand.nextInt(1450)+950;
-					    	  sizePlanet = r2;
+					    	   r2 = rand.nextInt(1450)+950;
+					    	  sizePlanet = r2 + " km";
 					    	 
 					      }	else {
-					    	  int r2 = rand.nextInt(93500)+49500;
-					    	  sizePlanet = r2;
+					    	   r2 = rand.nextInt(93500)+49500;
+					    	  sizePlanet = r2 + " km";
 					    	  
 					      }
 					    
@@ -161,10 +157,7 @@ public class PlanetGeneration {
 
    
     }//pg
-  //------------------------------------------------------------------------------
-    
-    
-    
+
     
     
     
@@ -190,7 +183,7 @@ public class PlanetGeneration {
     
     
   //================= select =================
-    public static void select(int pnum) {
+    public static void select() {
 
         ArrayList<String> SMTH = new ArrayList<>();
         ArrayList<Integer> IDs = new ArrayList<>();
@@ -228,10 +221,10 @@ public class PlanetGeneration {
 
         int pnum2 = SMTH.indexOf(selected);
 
-        if (pnum2 >= 0) {
+        if (pnum2 >= 0) 
             pnum2 = IDs.get(pnum2);
             showInfo(pnum2);
-        }
+        
     }// select
     
     
