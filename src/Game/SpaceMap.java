@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 public class SpaceMap {
 	//================= Variables =================
 	public static int maximum;
-	public static int AlterraRep, ECRep, MISRep, DRGRep;
+	public static int AlterraRep = 10, ECRep = 5, MISRep = -10, DRGRep = -15;
 	public static char Rocket = '^';
 	public static int rX, rY, MapX = 15, MapY = 15;
 	public static char[][] WorldMap;
@@ -20,10 +20,9 @@ public class SpaceMap {
 	public static int credits;
 	public static double version = 0.3;
 	public static int pDisc = 0;
-	public static int TileDist = 150000;
+	//public static int TileDist = 150000;
 	public static int StorageCap = 250;
-	public static double EngineCoef = 0, HaulCoef = 0, StorageCoef = 0;
-	public static boolean hasScanner = false;
+	public static double engineCoef = 0, haulDefCoef = 0, storageCoef = 0, scanLVL = 1;
 	public static DecimalFormat df1 = new DecimalFormat( "#.##" );
 	public static Scanner scan = new Scanner(System.in);
 	
@@ -32,6 +31,7 @@ public class SpaceMap {
 	//================= Main =================// Calls methods
 	public static void main(String[] args) {
 		Random rCredits = new Random();
+		Moons.loadMoons();
 		StationClass.loadStations();
 		credits = rCredits.nextInt(1000) + 500;
 		WorldMap = MapGenerating();
@@ -182,7 +182,7 @@ public class SpaceMap {
 		    case 'w':
 		        if (rX > 0 && fuel > 0) {
 		            rX--;
-		            fuel -= 2.5 - EngineCoef;
+		            fuel -= 2.5 - engineCoef;
 		            moved = true;
 		        }
 		        break;
@@ -190,7 +190,7 @@ public class SpaceMap {
 		    case 'a':
 		        if (rY > 0 && fuel > 0) {
 		            rY--;
-		            fuel -= 2.5 - EngineCoef;
+		            fuel -= 2.5 - engineCoef;
 		            moved = true;
 		        }
 		        break;
@@ -198,7 +198,7 @@ public class SpaceMap {
 		    case 's':
 		        if (rX < MapX - 1 && fuel > 0) {
 		            rX++;
-		            fuel -= 2.5 - EngineCoef;
+		            fuel -= 2.5 - engineCoef;
 		            moved = true;
 		        }
 		        break;
@@ -206,7 +206,7 @@ public class SpaceMap {
 		    case 'd':
 		        if (rY < MapY - 1 && fuel > 0) {
 		            rY++;
-		            fuel -= 2.5 - EngineCoef;
+		            fuel -= 2.5 - engineCoef;
 		            moved = true;
 		        }
 		        break;
@@ -225,10 +225,7 @@ public class SpaceMap {
 		}// if
 		
 		if (moved && WorldMap[rX][rY] == Station) {
-			
-
 		    stAction();
-
 		}// if
 		
 		mapPrint(WorldMap);
@@ -244,7 +241,13 @@ public class SpaceMap {
 	
 	//================= ShowInfo =================// Opens main menu up
 	public static void ShowInfo(double fuel) {
-
+		
+		for (int i = 0; i < PlanetGeneration.planetObj.size(); i++) {
+            if (PlanetGeneration.planetObj.get(i) != null) {
+            	pDisc++;
+            }// if
+        }// if
+		
     String[] methodList2 = {
         "W/A/S/D - Move",
         "Scanned planets",
