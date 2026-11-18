@@ -8,7 +8,7 @@ import javax.swing.JTextArea;
 public class SpaceShip {
 	// ========== Attributes ========== //
 	public static boolean hasDrill = false, Autopilot = false;
-	public static int engineCoef = 0, scanLVL = 0, storageCoef = 50, haulDefCoef = 0;
+	public static int engineCoef = 0, scanLVL = 1, storageCoef = 50, haulDefCoef = 0;
 	public static double Fe = 1, Cu = 0, U = 1 , Al = 1, Ti = 0;
 	
 	// ========== InventoryCheck ========== // Shows player's inventory
@@ -25,7 +25,7 @@ public class SpaceShip {
 	
 	// ========== UpgradesCheck ========== // Shows player's upgrades
 	public static void UpgradesCheck() {
-	String strEng = "", strScn = "", strStg = "", stg = "", strHal = "", eng = "";
+	String strEng = "", strScn = "", strStg = "", stg = "", strHal = "", eng = "", haul = " ";
 	switch(engineCoef) {
 	case 0: strEng = "N/A"; eng = " 0"; break;
 	case 1: strEng = "Mk1"; eng = "40"; break;
@@ -45,9 +45,9 @@ public class SpaceShip {
 	}// switch "storageCoef"
 	
 	switch(haulDefCoef) {
-	case 0: strHal = "N/A"; break;
-	case 15: strHal = "Mk1"; break;
-	case 30: strHal = "Mk2"; break;
+	case 0: strHal = "N/A";  haul = " 0";break;
+	case 15: strHal = "Mk1"; haul = "15"; break;
+	case 30: strHal = "Mk2"; haul = "30"; break;
 	}// switch "haulDefCoef"
 		
 		
@@ -55,10 +55,10 @@ public class SpaceShip {
 				 +"||          ~UPGRADES~          ||\n"
 				 +"==================================\n"
 				 +"||                              ||\n"
-				 +"||  [1] ENGINE:      " + strEng + " [-" + eng + "%]  ||\n"
+				 +"||  [1] ENGINE:      " + strEng + " [-" + eng + "%] ||\n"
 				 +"||  [2] SCANNER:     " + strScn + "        ||\n"
 				 +"||  [3] STORAGE:     " + strStg + " [" + stg + "]  ||\n"
-				 +"||  [4] HAUL:        " + strHal + " [-" + haulDefCoef + "%]  ||\n"
+				 +"||  [4] HAUL:        " + strHal + " [-" + haul + "%] ||\n"
 				 +"||  [5] AUTOPILOT:  " + ((Autopilot) ? " [X]"  + "        ||\n" : " [ ]" + "        ||\n")
 				 +"||  [6] LASER DRILL:" + ((hasDrill) ? " [X]"  + "        ||\n" : " [ ]" + "        ||\n")
 				 +"||                              ||\n"

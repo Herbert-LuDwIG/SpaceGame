@@ -141,18 +141,13 @@ public class PlanetGeneration {
     	    );
     	    return;
     	}
-    	
-	    if (planetObj.get(pID) == null) {
-        	
-    	 //JOptionPane.showMessageDialog(null, planets.get(r));
-        
-        String[] pType2 = {"Terrestrial planet", "Gas giant", "Ice giant", "Gas dwarf", "Dwarf planet"};
+    	String[] pType2 = {"Terrestrial planet", "Gas giant", "Ice giant", "Gas dwarf", "Dwarf planet"};
 		String[] pRings2 = {"No rings", "Has rings"};
 		String[] pRotation2 = {"Fast rotation", "Moderate rotation", "Slow rotation"};
 		String[] pWeather2 = {"Extremely cold", "Strong winds", "Storm", "Winds", "No winds and storm", "No storm", "Temperate temperature", "Extremely hot"};
+		
+	    if (arr[i][j] == SpaceMap.planet && planetObj.get(pID) == null && SpaceShip.scanLVL == 1) {   
 		  
-	
-		if(arr[i][j] == SpaceMap.planet && SpaceShip.scanLVL == 1) {
 				Random rand = new Random();
 				JOptionPane.showMessageDialog(null, "Scanning planet...");
         		int r = rand.nextInt(planetsName.size());
@@ -206,15 +201,16 @@ public class PlanetGeneration {
 					      PlanetGeneration planet = new PlanetGeneration(planetsName.get(r), pType2[r1], sizePlanet, pRings2[r3], pRotation2[r4], moonsP, weatherP, pID, i, j);
 					      planetObj.set(pID, planet);
 					      showInfo(pID);
+					      
 					// scanLVL = 0      
-				  } else if (arr[i][j] == SpaceMap.planet && SpaceShip.scanLVL == 0) {
+				  } else if (arr[i][j] == SpaceMap.planet && planetObj.get(pID) == null && SpaceShip.scanLVL == 0) {
 					  JOptionPane.showMessageDialog(null, "Planet scanner is needed!");
 					  return;
 					 // scanLVL = 2   
-				  } else if(arr[i][j] == SpaceMap.planet && SpaceShip.scanLVL == 2) {
-					 // JOptionPane.showMessageDialog(null, "Advanced scanner is aquaried!");
-					  JOptionPane.showMessageDialog(null, "Scanning planet...");
-					  Random rand = new Random();
+				  } else if(arr[i][j] == SpaceMap.planet && planetObj.get(pID) == null && SpaceShip.scanLVL == 2) {
+					  
+						JOptionPane.showMessageDialog(null, "Scanning planet...");
+						Random rand = new Random();
 				        
 		        		int r = rand.nextInt(planetsName.size());
 							 
@@ -286,11 +282,30 @@ public class PlanetGeneration {
 							      PlanetGeneration planet = new PlanetGeneration(planetsName.get(r), pType2[r1], sizePlanet, pRings2[r3], pRotation2[r4], moonsP, weatherP, pID, i, j);
 							      planetObj.set(pID, planet);
 							      showInfo(pID);
+					
+					  
 							      
-				  }// if...else if...else if
-				} else {
-			         JOptionPane.showMessageDialog(null, "The planet have been already scanned!");
-		        }// if..else
+				  } else if(arr[i][j] == SpaceMap.planet && planetObj.get(pID) != null && moons.get(pID) == null && SpaceShip.scanLVL == 2){
+					  JOptionPane.showMessageDialog(null, "Scanning for any new objects...");
+						Random rand = new Random();
+						String[] mColor = {"Gray", "Blue", "Red", "Yellow", "Purple", "Gray and Red gradients", "Gray and Blue gradients", "Gray and Yellow gradients", "Gray and Purple gradients", 
+								  "Red and Blue gradients", "Red and Yellow gradients", "Red and Purple gradients",
+								  "Yellow and Blue gradients", "Yellow and Purple gradients", 
+								  "Blue and Purple gradient"};
+				        String[] mShape = {"Sphere", "Elongated"};
+
+				        String moon = "";
+				        for (int i2 = 0; i2 < planetObj.get((i * 100) + j).pMoonQuanObj; i2++) {
+				        	 moon += "--------------------------------\n";
+				             moon += "Moon name: " + (MoonName.get(rand.nextInt(MoonName.size()))) + "\n";
+				             moon += "Color of the moon: " + (mColor[rand.nextInt(mColor.length)]) + "\n";
+				             moon += "Shape of the moon:" + (mShape[rand.nextInt(mShape.length)]) + "\n";
+				             moon += "Moon's diameter: " + (rand.nextInt(5500) + 1) + " km\n";							               
+				        }// i2   
+				      moons.set(pID, moon);
+				      showInfo(pID);
+					  
+				}// if..else
 			}//pg
 
     

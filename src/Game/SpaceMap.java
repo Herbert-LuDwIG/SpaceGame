@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 public class SpaceMap {
 	//================= Variables =================
 	public static int maximum;
-	public static int AlterraRep = 10, ECRep = 5, MISRep = -10, DRGRep = -15;
+	public static double AlterraRep = 10, ECRep = 5, MISRep = -10, DRGRep = -15;
 	public static char Rocket = '^';
 	public static int rX, rY, MapX = 15, MapY = 15;
 	public static char[][] WorldMap;
@@ -162,21 +162,22 @@ public class SpaceMap {
 	
 	//================= rCTRL =================// Allows player to move
 	public static double rCTRL() {
-		char wasd;
-		
-		do {
+		String wasd;
+		String ctrl;
+		if(!SpaceShip.Autopilot) {
+			do {
 			System.out.print("WASD = movement\nx - stop/menu");
 		wasd = VirknesParbaude();
 		
 		if(fuel <= 0) {
 			JOptionPane.showMessageDialog(null, "Out of fuel!\nMovement is impossible");
-			wasd = 'x';
+			wasd = "x";
 		}// if
 		
 		boolean moved = false;
 
 		switch (wasd) {
-		    case 'w':
+		    case "w":
 		        if (rX > 0 && fuel > 0) {
 		            rX--;
 		            fuel -= 2.5 - SpaceShip.engineCoef;
@@ -184,7 +185,7 @@ public class SpaceMap {
 		        }// if
 		        break;
 
-		    case 'a':
+		    case "a":
 		        if (rY > 0 && fuel > 0) {
 		            rY--;
 		            fuel -= 2.5 - SpaceShip.engineCoef;
@@ -192,7 +193,7 @@ public class SpaceMap {
 		        }// if
 		        break;
 
-		    case 's':
+		    case "s":
 		        if (rX < MapX - 1 && fuel > 0) {
 		            rX++;
 		            fuel -= 2.5 - SpaceShip.engineCoef;
@@ -200,7 +201,7 @@ public class SpaceMap {
 		        }// if
 		        break;
 
-		    case 'd':
+		    case "d":
 		        if (rY < MapY - 1 && fuel > 0) {
 		            rY++;
 		            fuel -= 2.5 - SpaceShip.engineCoef;
@@ -208,7 +209,7 @@ public class SpaceMap {
 		        }// if
 		        break;
 
-		    case 'x':
+		    case "x":
 		    	moved = false;
 		        ShowInfo(fuel);
 		        break;
@@ -227,7 +228,83 @@ public class SpaceMap {
 		
 		mapPrint(WorldMap);
 		
-		}while(wasd != 'x' && fuel > 0); // do{}while
+		}while(wasd != "x" && fuel > 0); // do{}while
+			
+		} else {
+			
+			do {
+				System.out.print("WASD = movement\nx - stop/menu");
+			ctrl = VirknesParbaude();
+			
+			if(fuel <= 0) {
+				JOptionPane.showMessageDialog(null, "Out of fuel!\nMovement is impossible");
+				wasd = "x";
+			}// if
+			
+			boolean moved = false;
+			
+			char[] A = ctrl.toCharArray();
+			
+			for(int i = 0; i < A.length; i++) {
+				switch (A[i]) {
+			    case 'w':
+			        if (rX > 0 && fuel > 0) {
+			            rX--;
+			            fuel -= 2.5 - SpaceShip.engineCoef;
+			            moved = true;
+			        }// if
+			        break;
+
+			    case 'a':
+			        if (rY > 0 && fuel > 0) {
+			            rY--;
+			            fuel -= 2.5 - SpaceShip.engineCoef;
+			            moved = true;
+			        }// if
+			        break;
+
+			    case 's':
+			        if (rX < MapX - 1 && fuel > 0) {
+			            rX++;
+			            fuel -= 2.5 - SpaceShip.engineCoef;
+			            moved = true;
+			        }// if
+			        break;
+
+			    case 'd':
+			        if (rY < MapY - 1 && fuel > 0) {
+			            rY++;
+			            fuel -= 2.5 - SpaceShip.engineCoef;
+			            moved = true;
+			        }// if
+			        break;
+
+			    case 'x':
+			    	moved = false;
+			        ShowInfo(fuel);
+			        break;
+
+			    default:
+			        System.out.println("Incorrect input");
+			}// switch
+
+			if (moved && WorldMap[rX][rY] == planet) {
+			    pAction();
+			}// if
+			
+			if (moved && WorldMap[rX][rY] == Station) {
+			    stAction();
+			}// if
+			}// i
+			
+			
+			
+			mapPrint(WorldMap);
+			
+			}while(ctrl != "x" && fuel > 0); // do{}while
+		}
+				
+		
 		return fuel;
 	}//rCTRL
 	
@@ -236,7 +313,7 @@ public class SpaceMap {
 	
 	
 	
-	//================= ShowInfo =================// Opens main menu up
+	//================= ShowInfo =================// Opens the main menu up
 	public static void ShowInfo(double fuel) {
 		
 		for (int i = 0; i < PlanetGeneration.planetObj.size(); i++) {
@@ -254,7 +331,7 @@ public class SpaceMap {
         "Quit"
     };
 
-    while(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(false == true)))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) {
+    while(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(!(false != true))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))))) {
         String method2 = (String) JOptionPane.showInputDialog(
             null,
             "========================================\n"
@@ -330,17 +407,15 @@ public class SpaceMap {
 	
 	
 	//================= VirknesParbaude =================// Checks the input
-	public static char VirknesParbaude() {
+	public static String VirknesParbaude() {
 		System.out.println();
-		 char dati = scan.next().charAt(0);
+		 String dati = scan.next();
 
-			    if (Character.toString(dati).matches("^[a-zA-Z0-9]*$")) {
-			         
-			    }else{
-			         System.out.println("invalid input");
+			    if (!dati.matches("^[a-zA-Z0-9]*$")) {
+			           System.out.println("invalid input");
 			    }
-			
 			return dati;
+			
 	 }//VirknesParbaude
 	
 	
@@ -364,7 +439,7 @@ public class SpaceMap {
 	    );
 	    	
 	    	 if (selectedPlanet == 0) {
-	    		 JOptionPane.showMessageDialog(null, "Continuing exploration...");
+	    		return;
 	 	    } else if (selectedPlanet == 1) {
 	 	        JOptionPane.showMessageDialog(null, "Continuing exploration...");
 	 	        //rCTRL();
