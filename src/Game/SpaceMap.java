@@ -18,11 +18,10 @@ public class SpaceMap {
 	public static double Fe = 0, Cu = 0, U = 0,Al = 0,Ti = 0;
 	public static int fCap = 250;
 	public static int credits;
-	public static double version = 0.3;
+	public static double version = 0.4;
 	public static int pDisc = 0;
 	//public static int TileDist = 150000;
 	public static int StorageCap = 250;
-	public static double engineCoef = 0, haulDefCoef = 0, storageCoef = 0, scanLVL = 1;
 	public static DecimalFormat df1 = new DecimalFormat( "#.##" );
 	public static Scanner scan = new Scanner(System.in);
 	
@@ -31,12 +30,12 @@ public class SpaceMap {
 	//================= Main =================// Calls methods
 	public static void main(String[] args) {
 		Random rCredits = new Random();
-		Moons.loadMoons();
 		StationClass.loadStations();
-		credits = rCredits.nextInt(1000) + 500;
+		credits = rCredits.nextInt(1000) + 506750;
 		WorldMap = MapGenerating();
 		mapPrint(WorldMap);
-		PlanetGeneration.emptyAnArray();
+		PlanetGeneration.loadMoons();
+		PlanetGeneration.emptyAnArrays();
 		PlanetGeneration.loadPlanets();
 		PlanetGeneration.pg(WorldMap, rX, rY);
 		ShowInfo(fuel);	
@@ -123,19 +122,17 @@ public class SpaceMap {
 	        for (int i = rows * cols - 1; i > 0; i--) {
 
 	            int j = random.nextInt(i + 1);
-
 	            
 	            int row1 = i / cols;
 	            int col1 = i % cols;
 
 	            int row2 = j / cols;
 	            int col2 = j % cols;
-
-	           
+      
 	            char temp = map[row1][col1];
 	            map[row1][col1] = map[row2][col2];
 	            map[row2][col2] = temp;
-	        }
+	        }// i
 	    }// shuffle
 	
 	
@@ -174,7 +171,7 @@ public class SpaceMap {
 		if(fuel <= 0) {
 			JOptionPane.showMessageDialog(null, "Out of fuel!\nMovement is impossible");
 			wasd = 'x';
-		}
+		}// if
 		
 		boolean moved = false;
 
@@ -182,33 +179,33 @@ public class SpaceMap {
 		    case 'w':
 		        if (rX > 0 && fuel > 0) {
 		            rX--;
-		            fuel -= 2.5 - engineCoef;
+		            fuel -= 2.5 - SpaceShip.engineCoef;
 		            moved = true;
-		        }
+		        }// if
 		        break;
 
 		    case 'a':
 		        if (rY > 0 && fuel > 0) {
 		            rY--;
-		            fuel -= 2.5 - engineCoef;
+		            fuel -= 2.5 - SpaceShip.engineCoef;
 		            moved = true;
-		        }
+		        }// if
 		        break;
 
 		    case 's':
 		        if (rX < MapX - 1 && fuel > 0) {
 		            rX++;
-		            fuel -= 2.5 - engineCoef;
+		            fuel -= 2.5 - SpaceShip.engineCoef;
 		            moved = true;
-		        }
+		        }// if
 		        break;
 
 		    case 'd':
 		        if (rY < MapY - 1 && fuel > 0) {
 		            rY++;
-		            fuel -= 2.5 - engineCoef;
+		            fuel -= 2.5 - SpaceShip.engineCoef;
 		            moved = true;
-		        }
+		        }// if
 		        break;
 
 		    case 'x':
@@ -251,6 +248,7 @@ public class SpaceMap {
     String[] methodList2 = {
         "W/A/S/D - Move",
         "Scanned planets",
+        "Upgrades",
         "Inventory (in development)",
         "Missions (in development)",
         "Quit"
@@ -287,8 +285,12 @@ public class SpaceMap {
                     PlanetGeneration.select();
                 break;
 
+            case "Upgrades":
+            	SpaceShip.UpgradesCheck();
+            	break;
+                
             case "Inventory (in development)":
-            	SpaceShip.InventoryCheck(1, 1, 1, 1, 1);
+            	SpaceShip.InventoryCheck();
                 break;
 
             case "Missions (in development)":
@@ -348,25 +350,45 @@ public class SpaceMap {
 	//================= pAction =================// Shows planet activities
 	public static void pAction() {
 	    Object[] options = {"Scan", "Continue exploration"};
-
-	    int selectedPlanet = JOptionPane.showOptionDialog(
+	    Object[] options2 = {"Scan (not available)", "Continue exploration"};
+	    if(SpaceShip.scanLVL == 0) {
+	    	int selectedPlanet = JOptionPane.showOptionDialog(
 	        null,
 	        "What would you like to do?",
 	        "Planet discovered!",
 	        JOptionPane.DEFAULT_OPTION,
 	        JOptionPane.QUESTION_MESSAGE,
 	        null,
-	        options,
-	        options[0]
+	        options2,
+	        options2[0]
 	    );
+	    	
+	    	 if (selectedPlanet == 0) {
+	    		 JOptionPane.showMessageDialog(null, "Continuing exploration...");
+	 	    } else if (selectedPlanet == 1) {
+	 	        JOptionPane.showMessageDialog(null, "Continuing exploration...");
+	 	        //rCTRL();
+	 	    }
+	    	
+	    } else {
+	    int selectedPlanet = JOptionPane.showOptionDialog(
+		        null,
+		        "What would you like to do?",
+		        "Planet discovered!",
+		        JOptionPane.DEFAULT_OPTION,
+		        JOptionPane.QUESTION_MESSAGE,
+		        null,
+		        options,
+		        options[0]
+		    );
 
 	    if (selectedPlanet == 0) {
-	        JOptionPane.showMessageDialog(null, "Scanning planet...");
 	        PlanetGeneration.pg(WorldMap, rX, rY);
 	    } else if (selectedPlanet == 1) {
 	        JOptionPane.showMessageDialog(null, "Continuing exploration...");
 	        //rCTRL();
 	    }
+	  }
 	}//pAction
 
 	

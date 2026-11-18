@@ -89,7 +89,6 @@ public class PlanetGeneration {
 	        try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
 
 	            String line;
-
 	            while ((line = br.readLine()) != null) {
 	                if (!line.isBlank()) {
 	                	MoonName.add(line.trim());
@@ -105,8 +104,8 @@ public class PlanetGeneration {
 	
 	
 	
-	//========== emptyAnArray ==========// Make an array to fill it with planets 
-    public static void emptyAnArray() {
+	//========== emptyAnArrays ==========// Make an array to fill it with planets 
+    public static void emptyAnArrays() {
     	
     	if (planetObj.isEmpty()) {
 	        for (int i2 = 0; i2 < SpaceMap.maximum; i2++) {
@@ -121,8 +120,10 @@ public class PlanetGeneration {
 	        }// i
 	    }// if
     	
-    	
-    }// emptyAnArray
+    	for(int i2 = 0; i2 < SpaceMap.maximum; i2++) {
+			 StationClass.StationObj.add(null);
+		 }// i2
+    }// emptyAnArrays
     
     
     
@@ -151,9 +152,9 @@ public class PlanetGeneration {
 		String[] pWeather2 = {"Extremely cold", "Strong winds", "Storm", "Winds", "No winds and storm", "No storm", "Temperate temperature", "Extremely hot"};
 		  
 	
-		if(arr[i][j] == SpaceMap.planet && SpaceMap.scanLVL == 1) {
+		if(arr[i][j] == SpaceMap.planet && SpaceShip.scanLVL == 1) {
 				Random rand = new Random();
-        
+				JOptionPane.showMessageDialog(null, "Scanning planet...");
         		int r = rand.nextInt(planetsName.size());
 					 
 						  int r1 = rand.nextInt(pType2.length);
@@ -206,13 +207,13 @@ public class PlanetGeneration {
 					      planetObj.set(pID, planet);
 					      showInfo(pID);
 					// scanLVL = 0      
-				  } else if (arr[i][j] == SpaceMap.planet && SpaceMap.scanLVL == 0) {
+				  } else if (arr[i][j] == SpaceMap.planet && SpaceShip.scanLVL == 0) {
 					  JOptionPane.showMessageDialog(null, "Planet scanner is needed!");
 					  return;
 					 // scanLVL = 2   
-				  } else if(arr[i][j] == SpaceMap.planet && SpaceMap.scanLVL == 2) {
+				  } else if(arr[i][j] == SpaceMap.planet && SpaceShip.scanLVL == 2) {
 					 // JOptionPane.showMessageDialog(null, "Advanced scanner is aquaried!");
-					  
+					  JOptionPane.showMessageDialog(null, "Scanning planet...");
 					  Random rand = new Random();
 				        
 		        		int r = rand.nextInt(planetsName.size());
@@ -275,7 +276,7 @@ public class PlanetGeneration {
 							        String moon = "";
 							        for (int i2 = 0; i2 < moonsP; i2++) {
 							        	 moon += "--------------------------------\n";
-							             moon += "Moon name: " + (Moons.MoonName.get(rand.nextInt(Moons.MoonName.size()))) + "\n";
+							             moon += "Moon name: " + (MoonName.get(rand.nextInt(MoonName.size()))) + "\n";
 							             moon += "Color of the moon: " + (mColor[rand.nextInt(mColor.length)]) + "\n";
 							             moon += "Shape of the moon:" + (mShape[rand.nextInt(mShape.length)]) + "\n";
 							             moon += "Moon's diameter: " + (rand.nextInt(5500) + 1) + " km\n";							               
@@ -354,7 +355,7 @@ public class PlanetGeneration {
         String selected = (String) JOptionPane.showInputDialog(
             null,
             "Which planet will you select?",
-            "Planet selection",
+            "Planet database",
             JOptionPane.QUESTION_MESSAGE,
             null,
             SMTH.toArray(),
@@ -372,6 +373,4 @@ public class PlanetGeneration {
             showInfo(pnum2);
         
     }// select
-    
-    
-    }// class
+  }// class

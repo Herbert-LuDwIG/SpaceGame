@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTextArea;
@@ -54,6 +55,9 @@ public class StationClass {
 	}// loadStations
 	
 	 
+	
+	
+	
 	//================= StationClass constructor =================// New station generation
 	 StationClass(String name, String fraction, String type, int ajdi){
 		 stNameObj = name; 
@@ -64,14 +68,15 @@ public class StationClass {
 	 
 	
 	 
+	 
+	 
+	 
 	//================= sg =================// Generate attributes of a new station
 	 public static void sg(char[][] arr, int i, int j) {
 		 int stID = (i*100)+j;
 		 String name;
 		
-		 for(int i2 = 0; i2 < SpaceMap.maximum; i2++) {
-			 StationObj.add(null);
-		 }
+		 
 		 
 	        if (StationObj.get(stID) == null) {
 	        	
@@ -81,7 +86,8 @@ public class StationClass {
 	    	Random rand = new Random();
 	    	int r = rand.nextInt(stationsName.size());
 	    	int r2 = rand.nextInt(10)+1;
-	    	int r1 = rand.nextInt(fraction2.length), r21 = rand.nextInt(type2.length);
+	    	int r1 = rand.nextInt(fraction2.length);
+	    	int r21 = rand.nextInt(type2.length);
 	        if(r2 >= 4) {
 	        	 name =  stationsName.get(r);
 	        } else {
@@ -90,25 +96,22 @@ public class StationClass {
 	        }
 	        
 		 if(arr[i][j] == SpaceMap.Station) {
-			  
 			 r1 = rand.nextInt(fraction2.length);
-					
-				     
-			  }// if
+		}// if
 		 
 		 StationClass stationObj = new StationClass(name, fraction2[r1], type2[r21], stID);
 		 StationObj.set(stID,stationObj);
 		 stActivity(stID);
 	        } else {
 	        stActivity(stID); 	
-	        }
-		 
+	        }// if...else
 	 }// sg
 	 
 
 	 
 	//================= stActivity =================// Shows station activities 
 	 	private static void stActivity(int num) {
+	 		//JOptionPane.showMessageDialog(null, StationObj.get(num).stTypeObj);
 	 		rSt1 = rand.nextInt(10);
 	 		rSt2 = rand.nextInt(10);
 	 		rSt3 = rand.nextInt(10);
@@ -120,7 +123,7 @@ public class StationClass {
 	 	
 	 	
 	 	
-	 	//========== refuel ==========// Refuels the spaceship
+	 	// ========== refuel ========== // Refuels the spaceship
 	 	private static void refuel() {
 	 		
 	 	    double cost = (SpaceMap.fCap - SpaceMap.fuel) * fuelCostPerUnit;
@@ -135,66 +138,70 @@ public class StationClass {
 	 	    	
 	 	        JOptionPane.showMessageDialog(null,"Not enough credits!");
 	 	    }// if...else
-	 	    
-	 	    
-	 	    
-	 	    
-	 	}// refuel
+	 	 }// refuel
 	 	
 	 	
 	 	
-	 	//========== trade ==========// Defines the type of station
+	 	
+	 	
+	 	// ========== trade ========== // Defines the type of station
 	 	public static void trade(String faction, String type, int num) {
 	 		
 	 	    switch(faction) {
 
 	 	        case "Alterra Corporation":
 	 	            switch(type) {
-	 	                case "Civil outpost": tradeCiv("Alterra Corporation", "AlterraMart™", num); break;
-	 	                case "Military outpost": tradeMil("Alterra Corporation", "Alterra Arms™", num); break;
-	 	                case "Scientific outpost": tradeSci("Alterra Corporation", "Alterra Science™", num); break;
-	 	                case "Mining outpost": tradeMin("Alterra Corporation", "AlterraCore™", num); break;
-	 	                case "Shipyard": tradeSPD("Alterra Corporation", "Alterra Engineering™", num); break;
-	 	            }
+	 	                case "Civil outpost": tradeCiv("AlterraMart™", num); break;
+	 	                case "Military outpost": tradeMil("Alterra Arms™", num); break;
+	 	                case "Scientific outpost": tradeSci("Alterra Science™", num); break;
+	 	                case "Mining outpost": tradeMin("AlterraCore™", num); break;
+	 	                case "Shipyard": tradeSPD("Alterra Engineering™", num); break;
+	 	            }// switch "type"
 	 	            break;
 
 	 	        case "European Coalition":
 	 	            switch(type) {
-	 	                case "Civil outpost": tradeCiv("European Coalition", "Euronics", num); break;
-	 	                case "Military outpost": tradeMil("European Coalition", "FairFax Industries", num); break;
-	 	                case "Scientific outpost": tradeSci("European Coalition", "NextPharma", num); break;
-	 	                case "Mining outpost": tradeMin("European Coalition", "Continental Minerals", num); break;
-	 	                case "Shipyard": tradeSPD("European Coalition", "EuroTech Shipworks", num); break;
-	 	            }
+	 	                case "Civil outpost": tradeCiv("Euronics", num); break;
+	 	                case "Military outpost": tradeMil("FairFax Industries", num); break;
+	 	                case "Scientific outpost": tradeSci("NextPharma", num); break;
+	 	                case "Mining outpost": tradeMin("Continental Minerals", num); break;
+	 	                case "Shipyard": tradeSPD("EuroTech Shipworks", num); break;
+	 	            }// switch "type"
 	 	            break;
 
 	 	        case "Mongolian Independent States":
 	 	            switch(type) {
-	 	                case "Civil outpost": tradeCiv("Mongolian Independent States", "Nomad Market", num); break;
-	 	                case "Military outpost": tradeMil("Mongolian Independent States", "Khan Industries", num); break;
-	 	                case "Scientific outpost": tradeSci("Mongolian Independent States", "SteppeLabs", num); break;
-	 	                case "Mining outpost": tradeMin("Mongolian Independent States", "Altan Mining Co.", num); break;
-	 	                case "Shipyard": tradeSPD("Mongolian Independent States", "Iron Nomad Shipworks", num); break;
-	 	            }
+	 	                case "Civil outpost": tradeCiv("Nomad Market", num); break;
+	 	                case "Military outpost": tradeMil("Khan Industries", num); break;
+	 	                case "Scientific outpost": tradeSci("SteppeLabs", num); break;
+	 	                case "Mining outpost": tradeMin("Altan Mining Co.", num); break;
+	 	                case "Shipyard": tradeSPD("Iron Nomad Shipworks", num); break;
+	 	            }// switch "type"
 	 	            break;
 
 	 	        case "DeepRockGalactic":
 	 	            switch(type) {
-	 	                case "Civil outpost": tradeCiv("DeepRockGalactic", "Miner's Rest", num); break;
-	 	                case "Military outpost": tradeMil("DeepRockGalactic", "RockSolid Defense", num); break;
-	 	                case "Scientific outpost": tradeSci("DeepRockGalactic", "DeepScan Technologies", num); break;
-	 	                case "Mining outpost": tradeMin("DeepRockGalactic", "DeepCore Industries", num); break;
-	 	                case "Shipyard": tradeSPD("DeepRockGalactic", "HeavyDrill Shipworks", num); break;
-	 	            }
+	 	                case "Civil outpost": tradeCiv("Miner's Rest", num); break;
+	 	                case "Military outpost": tradeMil("RockSolid Defense", num); break;
+	 	                case "Scientific outpost": tradeSci("DeepScan Technologies", num); break;
+	 	                case "Mining outpost": tradeMin("DeepCore Industries", num); break;
+	 	                case "Shipyard": tradeSPD("HeavyDrill Shipworks", num); break;
+	 	            }// switch "type"
 	 	            break;
 
 	 	    }// switch "faction"
 	 	}// trade
 	 	
-	 	//========== trade related methods ==========
-	 	private static void tradeCiv(String frac,String name, int num) {
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	
+	 	// ========== trade related methods ========== //
+	 	private static void tradeCiv(String name, int num) {
 	 		
-	 		Object[] options = {
+	 		Object[] optionsCiv = {
 	 			    "Refuel",
 	 				"Trade",
 	 			    "Missions",
@@ -207,60 +214,57 @@ public class StationClass {
 						 	+ "========================================================================================";
 	 		
 	 		JTextArea WelcomeArea = new JTextArea(WelcomeMessage);
-	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
 	 		WelcomeArea.setEditable(false);
 	 		WelcomeArea.setOpaque(false);
 	 		
 	 		do {
 	 		 result = JOptionPane.showOptionDialog(null,
-	 				WelcomeMessage,
-	   									frac + "'s civil station",
+	 				 					 WelcomeMessage,
+	 				 					 StationObj.get(num).stFracObj + "'s " + StationObj.get(num).stTypeObj,
 	   									 JOptionPane.YES_NO_CANCEL_OPTION,
 	   									 JOptionPane.PLAIN_MESSAGE, 
 	   									 null,
-	   									 options,
-	   									 options[0]);
+	   									 optionsCiv,
+	   									 optionsCiv[0]);
 	 		if(result == -1) 
 	 			result = 4; // cancer button
 	 		
 	 		switch(result) {
 	 		case 0: refuel(); break;
+	 		case 3: IntputCheck(name, "ENGINE Mk.1", "STORAGE Mk.1", "HAUL Mk.1"); break;
+	 		case 2: break;
 	 		case 1: 
 	 			
-	 			String message = "==================================\n"
-					+"||  	   STATION MARKET       ||\n"
-					+"==================================\n"
-					+"||  	 " + name.toUpperCase() + "      ||\n"
-					+"==================================\n"
-					+"||  AVAILABLE TRANSACTIONS      ||\n"
-					+"||                              ||\n"
-					+"||  [1] BUY                     ||\n"
-					+"||  [2] SELL                    ||\n"
-					+"||  [3] LEAVE                   ||\n"
-					+"||                              ||\n"
-					+"==================================\n"
-					+"||  STATUS: MARKET ONLINE       ||\n"
-					+"||  TRANSACTION: STATION-TRD-"+rSt1+rSt2+rSt3+"||\r\n"
-					+"==================================\n";
-	 		
-	 		JTextArea area = new JTextArea(message);
-	 		area.setFont(new Font("Monospaced", Font.PLAIN, 14));
-	 		area.setEditable(false);
-	 		area.setOpaque(false);
-
-	 		JOptionPane.showInputDialog(null, area);
-	 			
+	 			String Upgrades = "==================================\n"
+	 							 +"||  	   STATION MARKET       ||\n"
+	 							 +"==================================\n"
+	 							 +"||  	 " + name.toUpperCase() + "      ||\n"
+	 							 +"==================================\n"
+	 							 +"||  AVAILABLE TRANSACTIONS      ||\n"
+	 							 +"||                              ||\n"
+	 							 +"||  [1] BUY                     ||\n"
+	 							 +"||  [2] SELL                    ||\n"
+	 							 +"||  [3] LEAVE                   ||\n"
+	 							 +"||                              ||\n"
+	 							 +"==================================\n"
+	 							 +"||  STATUS: MARKET ONLINE       ||\n"
+	 							 +"||  TRANSACTION: STATION-TRS-"+rSt1+rSt2+rSt3+"||\r\n"
+	 							 +"==================================\n";
+		 		
+		 		JTextArea Upgradesarea = new JTextArea(Upgrades);
+		 		Upgradesarea.setFont(new Font("Monospaced", Font.PLAIN, 20));
+		 		Upgradesarea.setEditable(false);
+		 		Upgradesarea.setOpaque(false);
 	 			break;
-	 		case 2: break;
-	 		case 3: break;
 	 		case 4: break;
 	 		}// switch "result" 			
 	 	  }while(result != 4); // do{}while
 	 	}// tradeCiv
 	 	//------------------------------------------------------------------------------------------------------------------------------
-	 	private static void tradeMil(String frac,String name, int num) {
+	 	private static void tradeMil(String name, int num) {
 	 		
-	 		Object[] options = {
+	 		Object[] optionsMil = {
 	 			    "Refuel",
 	 				"Trade",
 	 			    "Missions",
@@ -273,19 +277,19 @@ public class StationClass {
 						 	+ "========================================================================================";
 	 		
 	 		JTextArea WelcomeArea = new JTextArea(WelcomeMessage);
-	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
 	 		WelcomeArea.setEditable(false);
 	 		WelcomeArea.setOpaque(false);
 	 		
 	 		do {
 	 		 result = JOptionPane.showOptionDialog(null,
 	 				WelcomeMessage,
-	   									frac + "'s civil station",
+	 				StationObj.get(num).stFracObj + "'s " + StationObj.get(num).stTypeObj,
 	   									 JOptionPane.YES_NO_CANCEL_OPTION,
 	   									 JOptionPane.PLAIN_MESSAGE, 
 	   									 null,
-	   									 options,
-	   									 options[0]);
+	   									optionsMil,
+	   									optionsMil[0]);
 	 		if(result == -1) 
 	 			result = 4; // cancer button
 	 		
@@ -310,7 +314,7 @@ public class StationClass {
 					+"==================================\n";
 	 		
 	 		JTextArea area = new JTextArea(message);
-	 		area.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	 		area.setFont(new Font("Monospaced", Font.PLAIN, 20));
 	 		area.setEditable(false);
 	 		area.setOpaque(false);
 
@@ -318,15 +322,15 @@ public class StationClass {
 	 			
 	 			break;
 	 		case 2: break;
-	 		case 3: break;
+	 		case 3: IntputCheck(name, "ENGINE Mk.2", "FUEL TANK Mk.1", "HAUL Mk.2"); break;
 	 		case 4: break;
 	 		}// switch "result" 			
 	 	  }while(result != 4); // do{}while
 	 	}// tradeMil
 	 	//------------------------------------------------------------------------------------------------------------------------------
-	 	private static void tradeSci(String frac,String name, int num) {
+	 	private static void tradeSci(String name, int num) {
 	 		
-	 		Object[] options = {
+	 		Object[] optionsSci = {
 	 			    "Refuel",
 	 				"Trade",
 	 			    "Missions",
@@ -339,19 +343,19 @@ public class StationClass {
 						 	+ "========================================================================================";
 	 		
 	 		JTextArea WelcomeArea = new JTextArea(WelcomeMessage);
-	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
 	 		WelcomeArea.setEditable(false);
 	 		WelcomeArea.setOpaque(false);
 	 		
 	 		do {
 	 		 result = JOptionPane.showOptionDialog(null,
 	 				WelcomeMessage,
-	   									frac + "'s civil station",
+	 				StationObj.get(num).stFracObj + "'s " + StationObj.get(num).stTypeObj,
 	   									 JOptionPane.YES_NO_CANCEL_OPTION,
 	   									 JOptionPane.PLAIN_MESSAGE, 
 	   									 null,
-	   									 options,
-	   									 options[0]);
+	   									optionsSci,
+	   									optionsSci[0]);
 	 		if(result == -1) 
 	 			result = 4; // cancer button
 	 		
@@ -376,7 +380,7 @@ public class StationClass {
 					+"==================================\n";
 	 		
 	 		JTextArea area = new JTextArea(message);
-	 		area.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	 		area.setFont(new Font("Monospaced", Font.PLAIN, 20));
 	 		area.setEditable(false);
 	 		area.setOpaque(false);
 
@@ -384,15 +388,15 @@ public class StationClass {
 	 			
 	 			break;
 	 		case 2: break;
-	 		case 3: break;
+	 		case 3: IntputCheck(name, "ENGINE Mk.2", "SCANNER Mk.2", "AUTOPILOT"); break;
 	 		case 4: break;
 	 		}// switch "result" 			
 	 	  }while(result != 4); // do{}while
 	 	}// tradeSci
 	 	//------------------------------------------------------------------------------------------------------------------------------
-	 	private static void tradeMin(String frac,String name, int num) {
+	 	private static void tradeMin(String name, int num) {
 	 		
-	 		Object[] options = {
+	 		Object[] optionsMin = {
 	 			    "Refuel",
 	 				"Trade",
 	 			    "Missions",
@@ -405,19 +409,19 @@ public class StationClass {
 						 	+ "========================================================================================";
 	 		
 	 		JTextArea WelcomeArea = new JTextArea(WelcomeMessage);
-	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
 	 		WelcomeArea.setEditable(false);
 	 		WelcomeArea.setOpaque(false);
 	 		
 	 		do {
 	 		 result = JOptionPane.showOptionDialog(null,
 	 				WelcomeMessage,
-	   									frac + "'s civil station",
+	 				StationObj.get(num).stFracObj + "'s " + StationObj.get(num).stTypeObj,
 	   									 JOptionPane.YES_NO_CANCEL_OPTION,
 	   									 JOptionPane.PLAIN_MESSAGE, 
 	   									 null,
-	   									 options,
-	   									 options[0]);
+	   									optionsMin,
+	   									optionsMin[0]);
 	 		if(result == -1) 
 	 			result = 4; // cancer button
 	 		
@@ -441,21 +445,21 @@ public class StationClass {
 					+"==================================\n";
 	 		
 	 		JTextArea area = new JTextArea(message);
-	 		area.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	 		area.setFont(new Font("Monospaced", Font.PLAIN, 20));
 	 		area.setEditable(false);
 	 		area.setOpaque(false);
 	 		JOptionPane.showInputDialog(null, area);
 	 		break;
 	 		case 2: break;
-	 		case 3: break;
+	 		case 3: IntputCheck(name, "LASER DRILL", "SCANNER Mk.1", "STORAGE Mk.2"); break;
 	 		case 4: break;
 	 		}// switch "result" 			
 	 	  }while(result != 4); // do{}while
 	 	}// tradeMin
 	 	//------------------------------------------------------------------------------------------------------------------------------
-	 	private static void tradeSPD(String frac,String name, int num) {
+	 	private static void tradeSPD(String name, int num) {
 	 		
-	 		Object[] options = {
+	 		Object[] optionsSPD = {
 	 			    "Refuel",
 	 			    "Missions",
 	 			    "Spaceship",
@@ -463,25 +467,25 @@ public class StationClass {
 	 			};
 	 		int result;
 	 		String WelcomeMessage =  "========================================================================================\n"
-						 	+ "                                    																		  Welcome to " +  StationObj.get(num).stNameObj + "!\n"
-						 	+ "========================================================================================";
+						 		   + "                           Welcome to " +  StationObj.get(num).stNameObj + "!\n"
+						 		   + "========================================================================================";
 	 		
 	 		JTextArea WelcomeArea = new JTextArea(WelcomeMessage);
-	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	 		WelcomeArea.setFont(new Font("Monospaced", Font.PLAIN, 20));
 	 		WelcomeArea.setEditable(false);
 	 		WelcomeArea.setOpaque(false);
 	 		
 	 		do {
 	 		 result = JOptionPane.showOptionDialog(null,
-	 				WelcomeMessage,
-	   									frac + "'s civil station",
+	 				 					 WelcomeMessage,
+	 				 					 StationObj.get(num).stFracObj + "'s " + StationObj.get(num).stTypeObj,
 	   									 JOptionPane.YES_NO_CANCEL_OPTION,
 	   									 JOptionPane.PLAIN_MESSAGE, 
 	   									 null,
-	   									 options,
-	   									 options[0]);
+	   									 optionsSPD,
+	   									 optionsSPD[0]);
 	 		if(result == -1) 
-	 			result = 4; // cancer button
+	 			result = 3; // cancer button
 	 		
 	 		switch(result) {
 	 		case 0: refuel(); break;
@@ -504,18 +508,235 @@ public class StationClass {
 					+"==================================\n";
 	 		
 	 		JTextArea area = new JTextArea(message);
-	 		area.setFont(new Font("Monospaced", Font.PLAIN, 14));
+	 		area.setFont(new Font("Monospaced", Font.PLAIN, 20));
 	 		area.setEditable(false);
 	 		area.setOpaque(false);
 
 	 		JOptionPane.showInputDialog(null, area);
 	 			
 	 			break;
-	 		case 2: break;
+	 		case 2: IntputCheck(name, "ENGINE Mk.2", "STORAGE Mk.2", "HAUL Mk.1"); break;
 	 		case 3: break;
-	 		case 4: break;
 	 		}// switch "result" 			
-	 	  }while(result != 4); // do{}while
+	 	  }while(result != 3); // do{}while
 	 	}// tradeSPD
+	 	
+	 	
+	 	
+	 	
+	 	// ========== IntputCheck ========== //
+	 	private static void IntputCheck(String name, String opt1, String opt2, String opt3) {
+	 		String choseDig, message = "==================================\n"
+	 				+"||  	        UPGRADES          ||\n"
+					+"==================================\n"
+					+"  	  " + name.toUpperCase() + "\n"
+					+"==================================\n"
+					+"||  AVAILABLE UPGRADES          ||\n"
+					+"||                              ||\n"
+					+"||  [1] " + opt1 + "            ||\n"
+					+"||  [2] " + opt2 + "            ||\n"
+					+"||  [3] " + opt3 + "            ||\n"
+					+"||                              ||\n"
+					+"==================================\n"
+					+"||  STATUS: MARKET ONLINE       ||\n"
+					+"||  TRANSACTION: STATION-TRD-"+rSt1+rSt2+rSt3+"||\r\n"
+					+"==================================\n";
+	 		
+	 		JTextArea area = new JTextArea(message);
+	 		area.setFont(new Font("Monospaced", Font.PLAIN, 20));
+	 		area.setEditable(false);
+	 		area.setOpaque(false);
+
+	 		choseDig = JOptionPane.showInputDialog(null, area);
+	 		
+	 		
+	 		if (choseDig == null) {
+	 		    return;
+	 		}
+	 		choseDig.trim();
+ 			       if(choseDig.equals("1") || choseDig.trim().equalsIgnoreCase(opt1)) {
+ 				PurchaseCheck(choseDig, name, opt1);
+ 			} else if(choseDig.equals("2") || choseDig.trim().equalsIgnoreCase(opt2)) {
+ 				PurchaseCheck(choseDig, name, opt2);
+ 			} else if(choseDig.equals("3") || choseDig.trim().equalsIgnoreCase(opt3)) {
+ 				PurchaseCheck(choseDig, name, opt3);
+ 			} else {// if...else if...else if
+ 				JOptionPane.showMessageDialog(null, "Incorrect input!");
+ 			}
+ 			
+	 	}// IntputCheck
+	 	
+	 	
+	 	
+	 	
+	 	// ========== PurchaseCheck ========== //
+	 	private static void PurchaseCheck(String str, String name, String upgrade) {
+	 			str = str.trim().toUpperCase();
+ 				switch(str) {
+ 				case "ENGINE MK.1": 
+ 					if(SpaceShip.engineCoef == 0) {
+ 						if(SpaceMap.credits >= 750) {
+ 						SpaceShip.engineCoef = 1;
+ 						SpaceMap.credits -= 750;
+ 						JOptionPane.showMessageDialog(null, "Thanks for buying at " + name + "!");
+ 						} else {
+ 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 						}
+ 						
+ 					} else {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break;
+ 				//-------------------------------------------------------------------------------------	
+ 				case "STORAGE MK.1":
+ 					if(SpaceShip.storageCoef == 50) {
+ 						if(SpaceMap.credits >= 275) {
+ 	 						SpaceShip.storageCoef += 50;
+ 	 						SpaceMap.credits -= 275;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break;
+ 				//-------------------------------------------------------------------------------------		
+ 				case "AUTOPILOT":
+ 					if(SpaceShip.Autopilot == false) {
+ 						if(SpaceMap.credits >= 500) {
+ 	 						SpaceShip.Autopilot = true;
+ 	 						SpaceMap.credits -= 500;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break;
+ 				//-------------------------------------------------------------------------------------		
+ 				case "SCANNER MK.1":
+ 					if(SpaceShip.scanLVL == 0) {
+ 						if(SpaceMap.credits >= 500) {
+ 	 						SpaceShip.scanLVL = 1;
+ 	 						SpaceMap.credits -= 500;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break;
+ 				//-------------------------------------------------------------------------------------		
+ 				case "LASER DRILL":
+ 					if(SpaceShip.hasDrill == false) {
+ 						if(SpaceMap.credits >= 750) {
+ 	 						SpaceShip.hasDrill = true;
+ 	 						SpaceMap.credits -= 750;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break;
+ 				//-------------------------------------------------------------------------------------		
+ 				case "HAUL MK.1":
+ 					if(SpaceShip.haulDefCoef == 0) {
+ 						if(SpaceMap.credits >= 825) {
+ 	 						SpaceShip.haulDefCoef += 15;
+ 	 						SpaceMap.credits -= 825;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break; 
+ 				//-------------------------------------------------------------------------------------
+ 				case "ENGINE MK.2": 
+ 					if(SpaceShip.engineCoef == 1) {
+ 						if(SpaceMap.credits >= 1250) {
+ 	 						SpaceShip.engineCoef = 2;
+ 	 						SpaceMap.credits -= 1250;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else if(SpaceShip.engineCoef < 1){
+ 						JOptionPane.showMessageDialog(null, "ENGINE Mk.1 is needed!");
+ 					} else  {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break;
+ 				//-------------------------------------------------------------------------------------	
+ 				case "STORAGE MK.2":
+ 					if(SpaceShip.storageCoef == 100) {
+ 						if(SpaceMap.credits >= 575) {
+ 	 						SpaceShip.storageCoef += 100;
+ 	 						SpaceMap.credits -= 575;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else if(SpaceShip.storageCoef < 100){
+ 						JOptionPane.showMessageDialog(null, "STORAGE Mk.1 is needed!");
+ 					} else  {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break;
+ 				//-------------------------------------------------------------------------------------	
+ 				case "SCANNER MK.2":
+ 					if(SpaceShip.scanLVL == 1) {
+ 						if(SpaceMap.credits >= 1000) {
+ 	 						SpaceShip.scanLVL += 1;
+ 	 						SpaceMap.credits -= 1000;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else if(SpaceShip.scanLVL < 1){
+ 						JOptionPane.showMessageDialog(null, "SCANNER Mk.1 is needed!");
+ 					} else  {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break;
+ 				//-------------------------------------------------------------------------------------
+ 				case "HAUL MK.2":
+ 					if(SpaceShip.haulDefCoef == 15) {
+ 						if(SpaceMap.credits >= 1500) {
+ 	 						SpaceShip.haulDefCoef += 15;
+ 	 						SpaceMap.credits -= 1500;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else if(SpaceShip.haulDefCoef < 15){
+ 						JOptionPane.showMessageDialog(null, "HAUL Mk.1 is needed!");
+ 					} else  {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break; 
+ 				//-------------------------------------------------------------------------------------
+ 				case "FUEL TANK MK.1":
+ 					if(SpaceMap.fCap == 250) {
+ 						if(SpaceMap.credits >= 950) {
+ 							SpaceMap.fCap += 250;
+ 	 						SpaceMap.credits -= 950;
+ 	 						JOptionPane.showMessageDialog(null, "Thank you for choosing " + name + "!");
+ 	 						} else {
+ 	 							JOptionPane.showMessageDialog(null, "Not enough credits!");	
+ 	 						}
+ 					} else  {
+ 						JOptionPane.showMessageDialog(null, upgrade + " already have been installed!");
+ 					}
+ 					break; 
+ 			}// switch "str"
+	 	
+	 }// PurchaseCheck
 	 	 	
 }// class
